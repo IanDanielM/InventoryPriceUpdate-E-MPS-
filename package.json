@@ -1,0 +1,23 @@
+{
+  "name": "inventorypriceupdate-e-mps-",
+  "version": "1.0.0",
+  "description": "Compare liworks and dropbox skus",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index",
+    "prod": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iandante77/InventoryPriceUpdate-E-MPS-.git"
+  },
+  "author": "Gerald Waweru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iandante77/InventoryPriceUpdate-E-MPS-/issues"
+  },
+  "homepage": "https://github.com/iandante77/InventoryPriceUpdate-E-MPS-#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
