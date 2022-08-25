@@ -6,7 +6,7 @@ from schedule import every, repeat, run_pending
 from forex_python.converter import CurrencyRates
 import time
 import requests
-from dbxconnect import dropbox_connect
+from connect import dropbox_connect
 #downloadd the files from drobox to be parsed
 def dropbox_download_file():
     try:
