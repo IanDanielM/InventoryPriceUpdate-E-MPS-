@@ -25,8 +25,7 @@ router.get('/grant', (req, res, next) => {
             state: csrfToken
         }
     }
-    console.log(url.format(options))
-    res.status(301).redirect(`https://www.dropbox.com/oauth2/authorize?client_id=${keys.clientId}&response_type=code&redirect_uri=${options.query.redirect_uri}&state=${csrfToken}`)
+    res.status(301).redirect(`https://www.dropbox.com/oauth2/authorize?client_id=${keys.clientId}&response_type=code&redirect_uri=${options.query.redirect_uri}&state=${csrfToken}&token_access_type=offline`)
 });
 
 
@@ -47,40 +46,41 @@ router.get('/callback',(req, res, next) => {
         })
     }
 
-    let options = {
-        hostname: 'api.dropboxapi.com',
-        pathname: 'oauth2/token',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    const response = req.query
+
+    console.log("response",response)
+
+    // write to file
+
+    fs.writeFileSync("res.txt", JSON.stringify(response))
+
+
+    let bodyParams = {
+        grant_type: 'authorization_code',
+        client_id: keys.clientId,
+        code: req.query.code,
+        client_Secret: keys.clientSecret,
+        redirect_uri: 'http://localhost:5000/emps/dropbox/callback',
     }
 
-    let bodyParams = queryString.stringify({
-        code: req.query.code,
-        grant_type: 'authorization_code',
-        redirect_uri: 'http://localhost:5000/emps/dropbox/callback',
-        client_id: keys.clientId,
-        client_Secret: keys.clientSecret
+
+    fetch(`https://api.dropboxapi.com/oauth2/token?grant_type=${bodyParams.grant_type}&client_id=${bodyParams.client_id}&code=${bodyParams.code}&client_secret=${bodyParams.client_Secret}&redirect_uri=${bodyParams.redirect_uri}`, {
+            hostname: 'api.dropboxapi.com',
+            pathname: '/oauth2/token',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
     })
-
-    https.request(options, (resp) => {
-        console.log(resp.statusCode)
-        if(resp.statusCode !== 200) {
-            return resp.statusMessage
-        }
-        let creds = [];
-
-        resp.on('data', (chunk) => {
-            creds.push(chunk)
-            console.log(bodyParams)
-            console.log(creds)
+    .then(res => res.json())
+    .then(jsonData => {
+        res.json({
+            success: true,
+            msg: 'Great work! Enjoy your access token & refresh token',
+            data: jsonData
         })
-
-        resp.on('end', () => {
-            res.end(creds.toString())
-        })
-    }).end(bodyParams)
+    })
+    .catch(err => console.log(err))
 })
 
 
