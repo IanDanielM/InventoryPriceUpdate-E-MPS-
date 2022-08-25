@@ -43,17 +43,8 @@ def parsecvs():
     OnBuy=lambda x: x.MarketPlacePriceUpdate)
     # output file
     currencyfiledf.to_csv(r'files\finalprices.csv',index = False)
-# #read the csvs
-#     df1 = pd.read_csv(r'files\Linnwork_Prices.csv')
-#     df2 = pd.read_csv(r'files\Vendor_Price_Update.csv')
-# #check for null columns in the mother file
-#     df3=df1[df1['Ebay UK'].notnull()]
-# #merge via inner join based  on sku
-#     checkprice=df3[["SKU"]].merge(df2[["SKU","Ebay UK"]], on ="SKU", how = "inner")
-#     checkprice.drop_duplicates(inplace = True)
-# #output file
-#     checkprice.to_csv(r'files\finalprices.csv',index = False)
 
+#upload output file to Dropbox
 def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files\finalprices.csv', 'rb') as f:
@@ -62,17 +53,9 @@ def dropbox_upload_file():
 #start script run schedule
 @repeat(every(10).seconds)   
 def main():
-    
     dropbox_download_file()
     parsecvs()
     dropbox_upload_file()
 while True:
     run_pending()
     time.sleep(1)
-
-    
-
-# if __name__ == "__main__":
-    
-#     schedule()
-    
