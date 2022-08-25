@@ -10,6 +10,8 @@ def dropbox_connect():
     except AuthError as e:
         print('Error connecting to Dropbox with access token: ' + str(e))
     return dbx
+
+#downloadd the files from drobox to be parsed
 def dropbox_download_file():
     try:
         dbx = dropbox_connect()
@@ -22,14 +24,17 @@ def dropbox_download_file():
     except Exception as e:
         print('Error downloading file from Dropbox: ' + str(e))
 
+#parse the cvs based on new prices
 def parsecvs():
+#read the csvs
     df1 = pd.read_csv(r'files\Linnwork_Prices.csv')
     df2 = pd.read_csv(r'files\Vendor_Price_Update.csv')
+#check for null columns in the mother file
     df3=df1[df1['Ebay UK'].notnull()]
+#merge via inner join based  on sku
     checkprice=df3[["SKU"]].merge(df2[["SKU","Ebay UK"]], on ="SKU", how = "inner")
     checkprice.drop_duplicates(inplace = True)
-    # filterSKU = checkprice.merge(df1[['SKU']],how='inner',on='SKU')
-    # f3 = df3[["SKU","Ebay UK"]].merge(df2[["SKU","Ebay UK"]], on = "Ebay UK",how = "left")
+#output file
     checkprice.to_csv(r'files\finalprices.csv',index = False)
 
 def dropbox_upload_file():
@@ -38,6 +43,7 @@ def dropbox_upload_file():
         dbx.files_upload(f.read(), '/E-MPS Work/e-mps Dev/main.csv')
 
 
+#start script run schedule
 @repeat(every(10).seconds)   
 def main():
     # dropbox_download_file()
