@@ -11,10 +11,10 @@ from connect import dropbox_connect
 def dropbox_download_file():
     try:
         dbx = dropbox_connect()
-        with open(r'files\Linnwork_Prices.csv', 'wb') as f:
+        with open(r'files/Linnwork_Prices.csv', 'wb') as f:
             metadata, result = dbx.files_download(path="/E-MPS Work/e-mps Dev/Linnwork_Prices.csv")
             f.write(result.content)
-        with open(r'files\Vendor_Price_Update.csv', 'wb') as f:
+        with open(r'files/Vendor_Price_Update.csv', 'wb') as f:
             metadata, result = dbx.files_download(path="/E-MPS Work/e-mps Dev/Vendor_Price_Update.csv")
             f.write(result.content)
     except Exception as e:
@@ -27,8 +27,8 @@ def parsecvs():
     Usd=c.get_rate('GBP','USD').__round__(2)
     Cad=c.get_rate('GBP','CAD').__round__(2)
     Aud=c.get_rate('GBP','AUD').__round__(2)
-    df1 = pd.read_csv(r'files\Linnwork_Prices.csv')
-    df2 = pd.read_csv(r'files\Vendor_Price_Update.csv')
+    df1 = pd.read_csv(r'files/Linnwork_Prices.csv')
+    df2 = pd.read_csv(r'files/Vendor_Price_Update.csv')
     #check for null columns in the mother file
     df3=df1[df1['MarketPlacePriceUpdate'].notnull()]
     #merge via inner join based  on sku
@@ -42,12 +42,12 @@ def parsecvs():
     eBay_AU=lambda x: x.MarketPlacePriceUpdate * Aud,
     OnBuy=lambda x: x.MarketPlacePriceUpdate)
     # output file
-    currencyfiledf.to_csv(r'files\finalprice.csv',index = False)
+    currencyfiledf.to_csv(r'files/finalprice.csv',index = False)
 
 #upload output file to Dropbox
 def dropbox_upload_file():
     dbx = dropbox_connect()
-    with open(r'files\finalprice.csv', 'rb') as f:
+    with open(r'files/finalprice.csv', 'rb') as f:
         dbx.files_upload(f.read(), '/E-MPS Work/e-mps Dev/finalprice.csv')
         print("success")
 #start script run schedule
