@@ -42,13 +42,13 @@ def parsecvs():
     eBay_AU=lambda x: x.MarketPlacePriceUpdate * Aud,
     OnBuy=lambda x: x.MarketPlacePriceUpdate)
     # output file
-    currencyfiledf.to_csv(r'files\finalprices.csv',index = False)
+    currencyfiledf.to_csv(r'files\finalprice.csv',index = False)
 
 #upload output file to Dropbox
 def dropbox_upload_file():
     dbx = dropbox_connect()
-    with open(r'files\finalprices.csv', 'rb') as f:
-        dbx.files_upload(f.read(), '/E-MPS Work/e-mps Dev/finalprices.csv')
+    with open(r'files\finalprice.csv', 'rb') as f:
+        dbx.files_upload(f.read(), '/E-MPS Work/e-mps Dev/finalprice.csv')
         print("success")
 #start script run schedule
 @repeat(every(10).seconds)   
