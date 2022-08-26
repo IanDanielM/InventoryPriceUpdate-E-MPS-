@@ -1,4 +1,4 @@
-import pathlib
+import pathlib as Path
 import pandas as pd
 import dropbox
 from dropbox.exceptions import AuthError
@@ -44,18 +44,22 @@ def parsecvs():
     # output file
     currencyfiledf.to_csv(r'files/finalprice.csv',index = False)
 
+
+
 #upload output file to Dropbox
 def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files/finalprice.csv', 'rb') as f:
-        dbx.files_upload(f.read(), path="\E-MPS Work\e-mps Dev\finalprice.csv")
+        dbx.files_upload(f.read(), path="/E-MPS Worke-mps Dev/finalprice.csv")
         print("success")
+
 #start script run schedule
-@repeat(every(10).seconds)   
+@repeat(every(1).seconds)   
 def main():
     dropbox_download_file()
     parsecvs()
     dropbox_upload_file()
+    
 while True:
     run_pending()
     time.sleep(1)
