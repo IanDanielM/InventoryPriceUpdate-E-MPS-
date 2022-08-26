@@ -53,12 +53,12 @@ def dropbox_upload_file():
         
 
 #start script run schedule
-@repeat(every(10).seconds)   
+@repeat(every(1).hour)   
 def main():
     dropbox_download_file()
     parsecvs()
-    dropbox_upload_file()
-    
+    dropbox_upload_file()   
+    print("Updated")
 while True:
     run_pending()
     time.sleep(1)
