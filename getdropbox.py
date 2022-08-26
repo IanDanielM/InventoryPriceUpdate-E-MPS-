@@ -55,7 +55,7 @@ def dropbox_upload_file():
         print("success")
 
 #start script run schedule
-@repeat(every(1).seconds)   
+@repeat(every(10).seconds)   
 def main():
     dropbox_download_file()
     parsecvs()
