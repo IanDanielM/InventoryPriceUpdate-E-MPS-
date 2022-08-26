@@ -17,6 +17,7 @@ def dropbox_download_file():
         with open(r'files/Vendor_Price_Update.csv', 'wb') as f:
             metadata, result = dbx.files_download(path="/E-MPS Work/e-mps Dev/Vendor_Price_Update.csv")
             f.write(result.content)
+            print("Success")
     except Exception as e:
         print('Error downloading file from Dropbox: ' + str(e))
 
@@ -50,11 +51,11 @@ def parsecvs():
 def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files/finalprice.csv', 'rb') as f:
-        dbx.files_upload(f.read(), path="/E-MPS Worke-mps Dev/finalprice.csv")
+        dbx.files_upload(f.read(), path="/E-MPS Work/e-mps Dev/finalprice.csv")
         print("success")
 
 #start script run schedule
-@repeat(every(1).seconds)   
+@repeat(every(10).seconds)   
 def main():
     dropbox_download_file()
     parsecvs()
@@ -63,3 +64,4 @@ def main():
 while True:
     run_pending()
     time.sleep(1)
+
