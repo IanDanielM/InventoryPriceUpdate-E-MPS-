@@ -14,7 +14,7 @@ def dropbox_connect():
         response = requests.post(endpoint,params=query_params)
         r=response.json()
         dbx = dropbox.Dropbox(r['access_token'])
-        print("success")
+        
     except AuthError as e:
         print('Error connecting to Dropbox with access token: ' + str(e))
     return dbx
