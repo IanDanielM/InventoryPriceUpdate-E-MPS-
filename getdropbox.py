@@ -45,13 +45,11 @@ def parsecvs():
     # output file
     currencyfiledf.to_csv(r'files/finalprice.csv',index = False)
 
-
-
 #upload output file to Dropbox
 def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files/finalprice.csv', 'rb') as f:
-        dbx.files_upload(f.read(), path="/E-MPS Work/e-mps Dev/finalprice.csv")
+        dbx.files_upload(f.read(), path="\E-MPS Work\e-mps Dev/finalprice.csv")
         print("success")
 
 #start script run schedule
