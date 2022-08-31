@@ -7,6 +7,7 @@ from forex_python.converter import CurrencyRates
 import time
 import requests
 from connect import dropbox_connect
+import os
 #downloadd the files from drobox to be parsed
 def dropbox_download_file():
     try:
@@ -50,10 +51,9 @@ def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files/finalprice.csv', 'rb') as f:
         dbx.files_upload(f.read(), path='/E-MPS Work/e-mps Dev/finalprice.csv')
-        
 
 #start script run schedule
-@repeat(every(1).hour)   
+@repeat(every(30).minutes)   
 def main():
     dropbox_download_file()
     parsecvs()
@@ -62,4 +62,8 @@ def main():
 while True:
     run_pending()
     time.sleep(1)
+
+
+  
+
 
