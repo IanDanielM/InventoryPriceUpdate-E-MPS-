@@ -1,0 +1,22 @@
+Updated
+python3: can't open file 'dropbox.py': [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "getdropbox.py", line 63, in <module>
+    run_pending()
+  File "/home/kelvin/.local/lib/python3.8/site-packages/schedule/__init__.py", line 780, in run_pending
+    default_scheduler.run_pending()
+  File "/home/kelvin/.local/lib/python3.8/site-packages/schedule/__init__.py", line 100, in run_pending
+    self._run_job(job)
+  File "/home/kelvin/.local/lib/python3.8/site-packages/schedule/__init__.py", line 172, in _run_job
+    ret = job.run()
+  File "/home/kelvin/.local/lib/python3.8/site-packages/schedule/__init__.py", line 661, in run
+    ret = self.job_func()
+  File "getdropbox.py", line 60, in main
+    dropbox_upload_file()   
+  File "getdropbox.py", line 52, in dropbox_upload_file
+    dbx.files_upload(f.read(), path='/E-MPS Work/e-mps Dev/finalprice.csv')
+  File "/home/kelvin/.local/lib/python3.8/site-packages/dropbox/base.py", line 3208, in files_upload
+    r = self.request(
+  File "/home/kelvin/.local/lib/python3.8/site-packages/dropbox/dropbox_client.py", line 351, in request
+    raise ApiError(res.request_id,
+dropbox.exceptions.ApiError: ApiError('9b00fbb10a6544619a78685ced177206', UploadError('path', UploadWriteFailed(reason=WriteError('conflict', WriteConflictError('file', None)), upload_session_id='pid_upload_session:ABIFVkaP5aBroD2leGzQL_m0wdMDzB9_-S83ntTK6LgXdK76')))
