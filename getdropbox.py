@@ -54,7 +54,7 @@ def dropbox_upload_file():
         dbx.files_upload(f.read(), path='/E-MPS Work/e-mps Dev/finalprice.csv',mode=dropbox.files.WriteMode.overwrite)
 
 #start script run schedule
-@repeat(every(1).hour)   
+@repeat(every(1).hour)
 def main():
     dropbox_download_file()
     parsecvs()
