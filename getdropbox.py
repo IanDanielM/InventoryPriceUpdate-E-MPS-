@@ -8,6 +8,7 @@ import time
 import requests
 from connect import dropbox_connect
 import os
+from dropbox.files import WriteMode
 #downloadd the files from drobox to be parsed
 def dropbox_download_file():
     try:
@@ -50,10 +51,10 @@ def parsecvs():
 def dropbox_upload_file():
     dbx = dropbox_connect()
     with open(r'files/finalprice.csv', 'rb') as f:
-        dbx.files_upload(f.read(), path='/E-MPS Work/e-mps Dev/finalprice.csv')
+        dbx.files_upload(f.read(), path='/E-MPS Work/e-mps Dev/finalprice.csv',mode=dropbox.files.WriteMode.overwrite)
 
 #start script run schedule
-@repeat(every(30).minutes)   
+@repeat(every(1).hour)   
 def main():
     dropbox_download_file()
     parsecvs()
@@ -64,6 +65,5 @@ while True:
     time.sleep(1)
 
 
-  
 
 
